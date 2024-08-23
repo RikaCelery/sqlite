@@ -876,6 +876,11 @@ func values(objptr interface{}) (values []interface{}) {
 // addrs 反射 返回结构体对象的 addrs 数组
 func addrs(objptr interface{}) (addrs []interface{}) {
 	elem := reflect.ValueOf(objptr).Elem()
+	if elem.Type().Kind() != reflect.Struct {
+		addrs = make([]interface{}, 1)
+		addrs[0] = elem.Addr().Interface()
+		return
+	}
 	flen := elem.Type().NumField()
 	addrs = make([]interface{}, flen)
 	for i := 0; i < flen; i++ {
