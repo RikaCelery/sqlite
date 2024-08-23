@@ -283,7 +283,7 @@ func (db *Sqlite) InsertUnique(table string, objptr interface{}) error {
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) Find(table string, objptr interface{}, condition string) error {
+func (db *Sqlite) Find(table string, objptr interface{}, condition string, args ...any) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -292,7 +292,7 @@ func (db *Sqlite) Find(table string, objptr interface{}, condition string) error
 	if err != nil {
 		return err
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return err
 	}
@@ -318,7 +318,7 @@ func (db *Sqlite) Find(table string, objptr interface{}, condition string) error
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func Find[T any](db *Sqlite, table string, condition string) (obj T, err error) {
+func Find[T any](db *Sqlite, table string, condition string, args ...any) (obj T, err error) {
 	if db.DB == nil {
 		err = ErrNilDB
 		return
@@ -328,7 +328,7 @@ func Find[T any](db *Sqlite, table string, condition string) (obj T, err error) 
 	if err != nil {
 		return
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return
 	}
@@ -356,7 +356,7 @@ func Find[T any](db *Sqlite, table string, condition string) (obj T, err error) 
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) Query(q string, objptr interface{}) error {
+func (db *Sqlite) Query(q string, objptr interface{}, args ...any) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -364,7 +364,7 @@ func (db *Sqlite) Query(q string, objptr interface{}) error {
 	if err != nil {
 		return err
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return err
 	}
@@ -390,7 +390,7 @@ func (db *Sqlite) Query(q string, objptr interface{}) error {
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func Query[T any](db *Sqlite, q string) (obj T, err error) {
+func Query[T any](db *Sqlite, q string, args ...any) (obj T, err error) {
 	if db.DB == nil {
 		err = ErrNilDB
 		return
@@ -399,7 +399,7 @@ func Query[T any](db *Sqlite, q string) (obj T, err error) {
 	if err != nil {
 		return
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return
 	}
@@ -427,7 +427,7 @@ func Query[T any](db *Sqlite, q string) (obj T, err error) {
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) CanFind(table string, condition string) bool {
+func (db *Sqlite) CanFind(table string, condition string, args ...any) bool {
 	if db.DB == nil {
 		return false
 	}
@@ -436,7 +436,7 @@ func (db *Sqlite) CanFind(table string, condition string) bool {
 	if err != nil {
 		return false
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return false
 	}
@@ -456,7 +456,7 @@ func (db *Sqlite) CanFind(table string, condition string) bool {
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) CanQuery(q string) bool {
+func (db *Sqlite) CanQuery(q string, args ...any) bool {
 	if db.DB == nil {
 		return false
 	}
@@ -464,7 +464,7 @@ func (db *Sqlite) CanQuery(q string) bool {
 	if err != nil {
 		return false
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return false
 	}
@@ -484,7 +484,7 @@ func (db *Sqlite) CanQuery(q string) bool {
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) FindFor(table string, objptr interface{}, condition string, f func() error) error {
+func (db *Sqlite) FindFor(table string, objptr interface{}, condition string, f func() error, args ...any) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -493,7 +493,7 @@ func (db *Sqlite) FindFor(table string, objptr interface{}, condition string, f 
 	if err != nil {
 		return err
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return err
 	}
@@ -525,7 +525,7 @@ func (db *Sqlite) FindFor(table string, objptr interface{}, condition string, f 
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func FindAll[T any](db *Sqlite, table string, condition string) ([]*T, error) {
+func FindAll[T any](db *Sqlite, table string, condition string, args ...any) ([]*T, error) {
 	if db.DB == nil {
 		return nil, ErrNilDB
 	}
@@ -534,7 +534,7 @@ func FindAll[T any](db *Sqlite, table string, condition string) ([]*T, error) {
 	if err != nil {
 		return nil, err
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return nil, err
 	}
@@ -570,7 +570,7 @@ func FindAll[T any](db *Sqlite, table string, condition string) ([]*T, error) {
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) QueryFor(q string, objptr interface{}, f func() error) error {
+func (db *Sqlite) QueryFor(q string, objptr interface{}, f func() error, args ...any) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -578,7 +578,7 @@ func (db *Sqlite) QueryFor(q string, objptr interface{}, f func() error) error {
 	if err != nil {
 		return err
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return err
 	}
@@ -610,7 +610,7 @@ func (db *Sqlite) QueryFor(q string, objptr interface{}, f func() error) error {
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func QueryAll[T any](db *Sqlite, q string) ([]*T, error) {
+func QueryAll[T any](db *Sqlite, q string, args ...any) ([]*T, error) {
 	if db.DB == nil {
 		return nil, ErrNilDB
 	}
@@ -618,7 +618,7 @@ func QueryAll[T any](db *Sqlite, q string) ([]*T, error) {
 	if err != nil {
 		return nil, err
 	}
-	rows, err := stmt.Query()
+	rows, err := stmt.Query(args...)
 	if err != nil {
 		return nil, err
 	}
@@ -697,7 +697,7 @@ func (db *Sqlite) ListTables() (s []string, err error) {
 // Del 删除数据库表项.
 // condition 可为"WHERE id = 0".
 // 返回错误.
-func (db *Sqlite) Del(table string, condition string) error {
+func (db *Sqlite) Del(table string, condition string, args ...any) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -706,7 +706,7 @@ func (db *Sqlite) Del(table string, condition string) error {
 	if err != nil {
 		return err
 	}
-	_, err = stmt.Exec()
+	_, err = stmt.Exec(args...)
 	return err
 }
 
