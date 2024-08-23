@@ -1,4 +1,4 @@
-module github.com/FloatTech/sqlite
+module github.com/RikaCelery/sqlite
 
 go 1.18
 
