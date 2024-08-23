@@ -283,7 +283,7 @@ func (db *Sqlite) InsertUnique(table string, objptr interface{}) error {
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) Find(table string, objptr interface{}, condition string, args ...any) error {
+func (db *Sqlite) Find(table string, objptr interface{}, condition string, args ...interface{}) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -318,7 +318,7 @@ func (db *Sqlite) Find(table string, objptr interface{}, condition string, args 
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func Find[T any](db *Sqlite, table string, condition string, args ...any) (obj T, err error) {
+func Find[T any](db *Sqlite, table string, condition string, args ...interface{}) (obj T, err error) {
 	if db.DB == nil {
 		err = ErrNilDB
 		return
@@ -356,7 +356,7 @@ func Find[T any](db *Sqlite, table string, condition string, args ...any) (obj T
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) Query(q string, objptr interface{}, args ...any) error {
+func (db *Sqlite) Query(q string, objptr interface{}, args ...interface{}) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -390,7 +390,7 @@ func (db *Sqlite) Query(q string, objptr interface{}, args ...any) error {
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func Query[T any](db *Sqlite, q string, args ...any) (obj T, err error) {
+func Query[T any](db *Sqlite, q string, args ...interface{}) (obj T, err error) {
 	if db.DB == nil {
 		err = ErrNilDB
 		return
@@ -427,7 +427,7 @@ func Query[T any](db *Sqlite, q string, args ...any) (obj T, err error) {
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) CanFind(table string, condition string, args ...any) bool {
+func (db *Sqlite) CanFind(table string, condition string, args ...interface{}) bool {
 	if db.DB == nil {
 		return false
 	}
@@ -456,7 +456,7 @@ func (db *Sqlite) CanFind(table string, condition string, args ...any) bool {
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) CanQuery(q string, args ...any) bool {
+func (db *Sqlite) CanQuery(q string, args ...interface{}) bool {
 	if db.DB == nil {
 		return false
 	}
@@ -484,7 +484,7 @@ func (db *Sqlite) CanQuery(q string, args ...any) bool {
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) FindFor(table string, objptr interface{}, condition string, f func() error, args ...any) error {
+func (db *Sqlite) FindFor(table string, objptr interface{}, condition string, f func() error, args ...interface{}) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -525,7 +525,7 @@ func (db *Sqlite) FindFor(table string, objptr interface{}, condition string, f 
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func FindAll[T any](db *Sqlite, table string, condition string, args ...any) ([]*T, error) {
+func FindAll[T any](db *Sqlite, table string, condition string, args ...interface{}) ([]*T, error) {
 	if db.DB == nil {
 		return nil, ErrNilDB
 	}
@@ -570,7 +570,7 @@ func FindAll[T any](db *Sqlite, table string, condition string, args ...any) ([]
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func (db *Sqlite) QueryFor(q string, objptr interface{}, f func() error, args ...any) error {
+func (db *Sqlite) QueryFor(q string, objptr interface{}, f func() error, args ...interface{}) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
@@ -610,7 +610,7 @@ func (db *Sqlite) QueryFor(q string, objptr interface{}, f func() error, args ..
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
-func QueryAll[T any](db *Sqlite, q string, args ...any) ([]*T, error) {
+func QueryAll[T any](db *Sqlite, q string, args ...interface{}) ([]*T, error) {
 	if db.DB == nil {
 		return nil, ErrNilDB
 	}
@@ -697,7 +697,7 @@ func (db *Sqlite) ListTables() (s []string, err error) {
 // Del 删除数据库表项.
 // condition 可为"WHERE id = 0".
 // 返回错误.
-func (db *Sqlite) Del(table string, condition string, args ...any) error {
+func (db *Sqlite) Del(table string, condition string, args ...interface{}) error {
 	if db.DB == nil {
 		return ErrNilDB
 	}
