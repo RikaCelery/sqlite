@@ -28,6 +28,10 @@ type Sqlite struct {
 	stmtcache *ttl.Cache[string, *sql.Stmt]
 }
 
+func New(dbpath string) Sqlite {
+	return Sqlite{DBPath: dbpath}
+}
+
 // Open 打开数据库
 func (db *Sqlite) Open(cachettl time.Duration) (err error) {
 	if db.DB == nil {
@@ -279,7 +283,7 @@ func (db *Sqlite) InsertUnique(table string, objptr interface{}) error {
 	return err
 }
 
-// Find 查询数据库，写入最后一条结果到 objptr.
+// Find 查询数据库，写入第一条结果到 objptr.
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
@@ -306,15 +310,15 @@ func (db *Sqlite) Find(table string, objptr interface{}, condition string, args 
 	}
 	err = rows.Scan(addrs(objptr)...)
 	for rows.Next() {
-		if err != nil {
-			return err
+		if err == nil {
+			return nil
 		}
 		err = rows.Scan(addrs(objptr)...)
 	}
 	return err
 }
 
-// Find 查询数据库，返回最后一条结果.
+// Find 查询数据库，返回第一条结果.
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
@@ -344,7 +348,7 @@ func Find[T any](db *Sqlite, table string, condition string, args ...interface{}
 	}
 	err = rows.Scan(addrs(&obj)...)
 	for rows.Next() {
-		if err != nil {
+		if err == nil {
 			return
 		}
 		err = rows.Scan(addrs(&obj)...)
@@ -352,7 +356,7 @@ func Find[T any](db *Sqlite, table string, condition string, args ...interface{}
 	return
 }
 
-// Query 查询数据库，写入最后一条结果到 objptr.
+// Query 查询数据库，写入第一条结果到 objptr.
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
@@ -378,7 +382,7 @@ func (db *Sqlite) Query(q string, objptr interface{}, args ...interface{}) error
 	}
 	err = rows.Scan(addrs(objptr)...)
 	for rows.Next() {
-		if err != nil {
+		if err == nil {
 			return err
 		}
 		err = rows.Scan(addrs(objptr)...)
@@ -386,7 +390,7 @@ func (db *Sqlite) Query(q string, objptr interface{}, args ...interface{}) error
 	return err
 }
 
-// Query 查询数据库，返回最后一条结果.
+// Query 查询数据库，返回第一条结果.
 // q 为一整条查询语句, 慎用.
 // 默认字段与结构体元素顺序一致.
 // 返回错误.
@@ -415,7 +419,7 @@ func Query[T any](db *Sqlite, q string, args ...interface{}) (obj T, err error) 
 	}
 	err = rows.Scan(addrs(&obj)...)
 	for rows.Next() {
-		if err != nil {
+		if err == nil {
 			return
 		}
 		err = rows.Scan(addrs(&obj)...)
