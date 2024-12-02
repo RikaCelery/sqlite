@@ -427,6 +427,15 @@ func Query[T any](db *Sqlite, q string, args ...interface{}) (obj T, err error) 
 	return
 }
 
+// Exec 执行语句
+// 返回错误.
+func (db *Sqlite) Exec(q string, args ...interface{}) (sql.Result, error) {
+	if db.DB == nil {
+		return nil, ErrNilDB
+	}
+	return db.DB.Exec(q, args...)
+}
+
 // CanFind 查询数据库是否有 condition.
 // condition 可为"WHERE id = 0".
 // 默认字段与结构体元素顺序一致.
