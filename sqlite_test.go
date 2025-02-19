@@ -31,7 +31,7 @@ func TestPackUnpack(t *testing.T) {
 		Q myuint8
 	}
 	_ = os.Remove("test.db")
-	db := Sqlite{dbpath: "test.db"}
+	db := Sqlite{DBPath: "test.db"}
 	err := db.Open(time.Hour)
 	if err != nil {
 		t.Fatal(err)
@@ -134,7 +134,7 @@ func TestFK(t *testing.T) {
 		StudentCount int
 	}
 	_ = os.Remove("test.db")
-	db := Sqlite{dbpath: "test.db"}
+	db := Sqlite{DBPath: "test.db"}
 	err := db.Open(time.Hour)
 	if err != nil {
 		t.Fatal(err)
@@ -163,7 +163,7 @@ func TestFK(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	_, err = db.db.Exec("PRAGMA foreign_keys = ON;")
+	_, err = db.DB.Exec("PRAGMA foreign_keys = ON;")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -203,7 +203,7 @@ func TestWriteInGenericFindFor(t *testing.T) {
 		Count uint
 	}
 	_ = os.Remove("test.db")
-	db := Sqlite{dbpath: "test.db"}
+	db := Sqlite{DBPath: "test.db"}
 	err := db.Open(time.Hour)
 	if err != nil {
 		t.Fatal(err)
@@ -248,7 +248,7 @@ func TestAdditionalTags(t *testing.T) {
 		UniqueCount uint `db:"UniqueCount,UNIQUE"`
 	}
 	_ = os.Remove("test.db")
-	db := Sqlite{dbpath: "test.db"}
+	db := Sqlite{DBPath: "test.db"}
 	err := db.Open(time.Hour)
 	if err != nil {
 		t.Fatal(err)
